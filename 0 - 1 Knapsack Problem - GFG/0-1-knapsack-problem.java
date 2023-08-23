@@ -49,38 +49,22 @@ class gfg
 class Solution 
 { 
     //Function to return max value that can be put in knapsack of capacity W.
-     static int[][] dp; // Memoization table
-    
-    // Function to return max value that can be put in knapsack of capacity W.
-    static int knapSack(int W, int wt[], int val[], int n) 
+     static int knapSack(int W, int wt[], int val[], int n) 
     {
-        dp = new int[n + 1][W + 1];
+        int[][] dp = new int[n + 1][W + 1];
+        
         for (int i = 0; i <= n; i++) {
-            for (int j = 0; j <= W; j++) {
-                dp[i][j] = -1;
+            for (int w = 0; w <= W; w++) {
+                if (i == 0 || w == 0) {
+                    dp[i][w] = 0;
+                } else if (wt[i - 1] <= w) {
+                    dp[i][w] = Math.max(val[i - 1] + dp[i - 1][w - wt[i - 1]], dp[i - 1][w]);
+                } else {
+                    dp[i][w] = dp[i - 1][w];
+                }
             }
         }
         
-        return knapSackMemoized(W, wt, val, n);
-    }
-    
-    static int knapSackMemoized(int W, int wt[], int val[], int n) 
-    { 
-        if (n == 0 || W == 0) {
-            return 0;
-        }
-        
-        if (dp[n][W] != -1) {
-            return dp[n][W];
-        }
-        
-        if (wt[n - 1] > W) {
-            dp[n][W] = knapSackMemoized(W, wt, val, n - 1);
-        } else {
-            dp[n][W] = Math.max(val[n - 1] + knapSackMemoized(W - wt[n - 1], wt, val, n - 1),
-                                knapSackMemoized(W, wt, val, n - 1));
-        }
-        
         return dp[n][W];
-    } 
+    }
 }
