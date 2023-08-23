@@ -44,6 +44,11 @@ class Solution{
             dp[i][0] = true;
         
         }
+        
+        for(int j = 1; j <= sum; j++) {
+            dp[0][j] = false;
+        
+        }
         for (int i = 1; i <= N; i++) {
             for (int j = 1; j <= sum; j++) {
                 if (arr[i - 1] <= j) {
