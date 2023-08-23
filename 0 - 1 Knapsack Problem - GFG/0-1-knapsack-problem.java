@@ -56,7 +56,9 @@ class Solution
     {
         dp = new int[n + 1][W + 1];
         for (int i = 0; i <= n; i++) {
-            Arrays.fill(dp[i], -1);
+            for (int j = 0; j <= W; j++) {
+                dp[i][j] = -1;
+            }
         }
         
         return knapSackMemoized(W, wt, val, n);
