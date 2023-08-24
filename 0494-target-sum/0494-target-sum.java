@@ -1,13 +1,14 @@
 class Solution {
     public int findTargetSumWays(int[] nums, int target) {
-        int sum = 0;
+        int totalSum = 0;
         for(int x : nums)
-            sum += x;
-        if(((sum - target) % 2 == 1) || (target > sum))
+            totalSum += x;
+            
+        if(((totalSum - target) % 2!=0) || (target > totalSum))
             return 0;
         
         int n = nums.length;
-        int s2 = (sum - target)/2;
+        int s2 = (totalSum - target)/2;
         int[][] t = new int[n + 1][s2 + 1];
         t[0][0] = 1;
         
