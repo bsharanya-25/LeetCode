@@ -38,7 +38,7 @@ class Solution {
         int sum = 0;
         for(int x : A)
             sum += x;
-        if(((sum - target) % 2 ! == 1) || (target > sum))
+        if(((sum - target) % 2 != 0) || (target > sum))
             return 0;
         
        
