@@ -5,8 +5,8 @@ class Solution {
 
         for(int i=0;i<n+1;i++){
             for(int j=0;j<amount+1;j++){
-                if(i==0)t[i][j]=0;
-                if(j==0)t[i][j]=1;
+                if(i==0)t[0][j]=0;
+                if(j==0)t[i][0]=1;
             }
         }
         for(int i=1;i<=n;i++){
