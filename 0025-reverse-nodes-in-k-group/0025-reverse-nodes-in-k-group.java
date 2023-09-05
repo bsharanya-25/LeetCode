@@ -9,47 +9,23 @@
  * }
  */
 class Solution {
-    public int size(ListNode head){
-        if(head==null){
-            return 0;
-        }
-        if(head.next == null){
-            return 1;
-        }
-        int p =0;
-        ListNode current = head;
-        while(current != null){
-            current = current.next;
-            p++;
-        }
-    return p; 
+    public ListNode reverseKGroup(ListNode head, int k) {   
+    ListNode curr = head;
+    int count = 0;
+    while (curr != null && count != k) { // find the k+1 node
+        curr = curr.next;
+        count++;
     }
-
-    public ListNode reverseKGroup(ListNode head, int k) {
-        if(head == null){
-            return null;
+    if (count == k) { 
+        curr = reverseKGroup(curr, k); 
+        while (count-- > 0) { 
+            ListNode tmp = head.next; 
+            head.next = curr; 
+            curr = head; 
+            head = tmp; 
         }
-        if(head.next ==null){
-            return head;
-        }
-        
-        ListNode prev = null;
-        ListNode curr = head;
-        ListNode Next= null;
-        int count = 0;
-        while( curr!= null && count<k){
-           Next = curr.next;
-           curr.next = prev;
-           prev=  curr;
-           curr = Next;
-           count++;
-        }
-        if(Next!=null && size(Next)>=k){
-            head.next = reverseKGroup(Next,k);
-        }
-        else{
-            head.next = Next;
-        }
-    return prev;
+        head = curr;
+    }
+    return head;
     }
 }
