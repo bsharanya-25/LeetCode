@@ -1,6 +1,5 @@
 class Solution {
     public int uniquePaths(int m, int n) {
-        // Create a 2D array to store the number of unique paths to each cell.
         int[][] dp = new int[m][n];
 
         // Initialize the leftmost column to 1 because there's only one way to reach any cell in the left column.
@@ -22,6 +21,6 @@ class Solution {
         }
 
         // The value in the bottom-right cell represents the number of unique paths.
-        return dp[m - 1][n - 1];
+        return dp[m-1][n-1];
     }
 }
