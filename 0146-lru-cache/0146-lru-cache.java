@@ -1,75 +1,79 @@
 class LRUCache {
-    class DlNode {
-        int key, value;
-        DlNode prev, next;
 
-        DlNode() {
-            prev = next = null;
-        }
-
-        DlNode(int key, int value) {
-            this.key = key;
-            this.value = value;
-            prev = next = null;
-        }
-    }
-
-    private Map<Integer, DlNode> cache;
+    private Map<Integer, Node> cache;
     private int capacity;
-    private int size;
-    private DlNode head, tail;
 
-    private void addNode(DlNode node) {
-        node.prev = head;
-        node.next = head.next;
-        head.next.prev = node;
-        head.next = node;
-    }
-
-    private void removeNode(DlNode node) {
-        node.prev.next = node.next;
-        node.next.prev = node.prev;
-    }
-
-    private DlNode removeTail() {
-        DlNode tailPrev = tail.prev;
-        removeNode(tailPrev);
-        return tailPrev;
-    }
+    private Node left;
+    private Node right;
 
     public LRUCache(int capacity) {
-        cache = new HashMap<>();
         this.capacity = capacity;
-        size = 0;
-        head = new DlNode();
-        tail = new DlNode();
-        head.next = tail;
-        tail.prev = head;
+        cache = new HashMap<>();
+
+        //left = LRU , right = most recent
+        this.left = new Node(0, 0);
+        this.right = new Node(0, 0);
+        this.left.next = this.right;
+        this.right.prev = this.left;
     }
 
     public int get(int key) {
-        DlNode node = cache.get(key);
-        if (node == null) return -1;
-        removeNode(node);
-        addNode(node);
-        return node.value;
+        if (cache.containsKey(key)) {
+            remove(cache.get(key));
+            insert(cache.get(key));
+            return cache.get(key).val;
+        } else {
+            return -1;
+        }
     }
 
     public void put(int key, int value) {
-        DlNode node = cache.get(key);
-        if (node == null) {
-            if (size >= capacity) {
-                DlNode removed = removeTail();
-                cache.remove(removed.key);
-                size--;
-            }
-            node = new DlNode(key, value);
-            cache.put(key, node);
-            size++;
-        } else {
-            node.value = value;
-            removeNode(node);
+        if (cache.containsKey(key)) {
+            remove(cache.get(key));
         }
-        addNode(node);
+        cache.put(key, new Node(key, value));
+        insert(cache.get(key));
+
+        if (cache.size() > capacity) {
+            // remove from the list and delte the LRU from the hashmap
+            Node lru = this.left.next;
+            remove(lru);
+            cache.remove(lru.key);
+        }
+    }
+
+    // remove node from list
+    public void remove(Node node) {
+        Node prev = node.prev;
+        Node next = node.next;
+
+        prev.next = next;
+        next.prev = prev;
+    }
+
+    // insert node at right
+    public void insert(Node node) {
+        Node prev = this.right.prev;
+        Node next = this.right;
+
+        prev.next = node;
+        next.prev = node;
+
+        node.next = next;
+        node.prev = prev;
+    }
+
+    private class Node {
+
+        private int key;
+        private int val;
+
+        Node next;
+        Node prev;
+
+        public Node(int key, int val) {
+            this.key = key;
+            this.val = val;
+        }
     }
 }
