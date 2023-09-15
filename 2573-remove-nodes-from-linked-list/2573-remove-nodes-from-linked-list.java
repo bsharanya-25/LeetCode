@@ -9,9 +9,20 @@
  * }
  */
 class Solution {
-       public ListNode removeNodes(ListNode head) {
-        if (head == null) return null;
-        head.next = removeNodes(head.next);
-        return head.next != null && head.val < head.next.val ? head.next : head;
+    public ListNode removeNodes(ListNode head) {
+       
+        if(head.next==null)return head;
+        int maxval=Integer.MAX_VALUE;
+        ListNode newnode=new ListNode(maxval);
+        Stack<ListNode> stack=new Stack<ListNode>();
+        stack.push(newnode);
+        while(head!=null)
+        {
+            while(stack.peek().val<head.val)stack.pop();
+            stack.peek().next=head;
+            stack.push(head);
+            head=head.next;
+        }
+        return newnode.next;
     }
 }
