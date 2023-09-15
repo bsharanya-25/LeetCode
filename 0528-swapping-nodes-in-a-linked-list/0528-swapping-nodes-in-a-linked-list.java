@@ -14,32 +14,33 @@ class Solution {
             return null;
         }
 
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
-        ListNode fast = dummy;
-        ListNode slow = dummy;
+        ListNode fast = head;
+        ListNode slow = head;
+        ListNode first = head, second = head;
+        
+		// Put fast (k-1) nodes after slow
+        for(int i = 0; i < k - 1; ++i)
+            fast = fast.next;
+            
+		// Save the node for swapping
+        first = fast;
 
-        // Move fast pointer k nodes ahead
-        for (int i = 0; i < k; i++) {
-            if (fast == null) {
-                return null; // Invalid k value
-            }
+		// Move until the end of the list
+        while(fast.next != null) {
+			slow = slow.next;
             fast = fast.next;
         }
-
-        ListNode first = fast;
-        while (fast != null) {
-            fast = fast.next;
-            slow = slow.next;
-        }
-
-        ListNode second = slow;
-
-        // Swap the values of the first and second nodes
+        
+        // Save the second node for swapping
+		// Note that the pointer second isn't necessary: we could use slow for swapping as well
+		// However, having second improves readability
+        second = slow;
+		
+		// Swap values
         int temp = first.val;
         first.val = second.val;
         second.val = temp;
-
+        
         return head;
     }
 }
