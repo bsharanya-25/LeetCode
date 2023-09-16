@@ -2,17 +2,21 @@ class Solution {
     public ListNode sortList(ListNode head) {
         if (head == null || head.next == null)
             return head; // List is empty or has only one node, it's already sorted.
+
         // Split the list into two halves.
         ListNode middle = findMiddle(head);
         ListNode left = head;
         ListNode right = middle.next;
         middle.next = null; // Disconnect the two halves.
+
         // Recursively sort both halves.
         left = sortList(left);
         right = sortList(right);
+
         // Merge the sorted halves.
         return merge(left, right);
     }
+
     // Helper function to find the middle of a linked list.
     private ListNode findMiddle(ListNode head) {
         ListNode slow = head;
@@ -23,6 +27,7 @@ class Solution {
         }
         return slow;
     }
+
     // Helper function to merge two sorted linked lists.
     private ListNode merge(ListNode l1, ListNode l2) {
         ListNode dummy = new ListNode(0);
