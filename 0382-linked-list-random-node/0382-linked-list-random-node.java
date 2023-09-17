@@ -19,7 +19,7 @@ class Solution {
         ListNode p = this.head;
         int i = 1, ans = 0;
         while (p != null) {
-            if (Math.random() * i < 1) ans = p.val; // replace ans with i-th node.val with probability 1/i
+            if (Math.random() * i < 1) ans = p.val;
             p = p.next;
             i ++;
         }
