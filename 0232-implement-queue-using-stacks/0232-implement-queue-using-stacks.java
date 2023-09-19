@@ -1,48 +1,31 @@
-
 class MyQueue {
-    private Stack<Integer> inputStack;
-    private Stack<Integer> outputStack;
+    Stack<Integer> s1;
+    Stack<Integer> s2;
 
     public MyQueue() {
-        inputStack = new Stack<>();
-        outputStack = new Stack<>();
+        s1 = new Stack<Integer>();
+        s2 = new Stack<Integer>();
     }
 
-    // Add an element to the queue.
     public void push(int x) {
-        inputStack.push(x);
+        while (!s1.isEmpty()) {
+            s2.push(s1.pop());
+        }
+        s1.push(x);
+        while (!s2.isEmpty()) {
+            s1.push(s2.pop());
+        }
     }
 
-    // Remove and return the front element of the queue.
     public int pop() {
-        if (empty()) {
-            throw new IllegalStateException("Queue is empty");
-        }
-        transferInputToOutput();
-        return outputStack.pop();
+        return s1.pop();
     }
 
-    // Get the front element of the queue without removing it.
     public int peek() {
-        if (empty()) {
-            throw new IllegalStateException("Queue is empty");
-        }
-        transferInputToOutput();
-        return outputStack.peek();
+        return s1.peek();
     }
 
-    // Check if the queue is empty.
     public boolean empty() {
-        return inputStack.isEmpty() && outputStack.isEmpty();
+        return s1.isEmpty();
     }
-
-    // Helper method to transfer elements from inputStack to outputStack.
-    private void transferInputToOutput() {
-        if (outputStack.isEmpty()) {
-            while (!inputStack.isEmpty()) {
-                outputStack.push(inputStack.pop());
-            }
-        }
-    }
-
 }
