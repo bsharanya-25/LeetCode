@@ -8,12 +8,11 @@ class MyStack {
 
     public void push(int x) {
         int size = queue.size();
-        queue.offer(x);
-
+        queue.add(x);
         // Rotate the elements to maintain the order like a stack
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) 
             queue.offer(queue.poll());
-        }
+        
     }
 
     public int pop() {
