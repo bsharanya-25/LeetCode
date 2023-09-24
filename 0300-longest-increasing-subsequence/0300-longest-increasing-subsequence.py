@@ -1,10 +1,6 @@
-class Solution(object):
-    def lengthOfLIS(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        
         if not nums:
             return 0
 
@@ -18,4 +14,4 @@ class Solution(object):
 
         return max(dp)
 
-        
+
