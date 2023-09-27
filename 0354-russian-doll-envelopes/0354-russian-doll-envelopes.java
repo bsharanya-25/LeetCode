@@ -24,7 +24,7 @@ class Solution {
 
             dp[index] = envelope[1];
             if(index == len){
-            len++;
+                len++;
             }
         }
     return len;
