@@ -19,7 +19,7 @@ class Solution {
         int[] result = new int[resultSet.size()];
         int index = 0;
         for (int num : resultSet) {
-            result[index++] = num;
+            result[index++] = num; //initially index is 0 and after storing current num it increment to 1
         }
 
         return result;
