@@ -1,25 +1,32 @@
 class Solution {
     public int maxCoins(int[] nums) {
         int n = nums.length;
-        int[] balloons = new int[n + 2];
-        balloons[0] = balloons[n + 1] = 1; // Add imaginary balloons at both ends.
         
-        for (int i = 1; i <= n; i++) {
-            balloons[i] = nums[i - 1];
+        // Add 1 to the beginning and end of the array
+        int[] a = new int[n + 2];
+        a[0] = 1;
+        a[n + 1] = 1;
+        for (int i = 0; i < n; i++) {
+            a[i + 1] = nums[i];
         }
         
         int[][] dp = new int[n + 2][n + 2];
-        
-        for (int len = 2; len <= n + 1; len++) {
-            for (int left = 0; left <= n + 1 - len; left++) {
-                int right = left + len;
-                for (int k = left + 1; k < right; k++) {
-                    dp[left][right] = Math.max(dp[left][right],
-                            balloons[left] * balloons[k] * balloons[right] + dp[left][k] + dp[k][right]);
+
+        // Iterate from the end to the beginning
+        for (int i = n; i >= 1; i--) {
+            for (int j = 1; j <= n; j++) {
+                if (i > j) continue;
+                int maxi = Integer.MIN_VALUE;
+                
+                // Iterate through possible indices to split the array
+                for (int ind = i; ind <= j; ind++) {
+                    int cost = a[i - 1] * a[ind] * a[j + 1] +
+                               dp[i][ind - 1] + dp[ind + 1][j];
+                    maxi = Math.max(maxi, cost);
                 }
+                dp[i][j] = maxi;
             }
         }
-        
-        return dp[0][n + 1];
+        return dp[1][n];
     }
 }
