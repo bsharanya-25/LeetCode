@@ -2,8 +2,7 @@ class Solution {
     public int minCut(String s) {
         int n = s.length();
         boolean[][] isPalindrome = new boolean[n][n];
-        int[] memo = new int[n];
-        Arrays.fill(memo, -1);
+        int[] dp = new int[n];
         
         // Calculate isPalindrome array
         for (int len = 1; len <= n; len++) {
@@ -15,27 +14,20 @@ class Solution {
             }
         }
         
-        return minCutHelper(s, 0, n - 1, isPalindrome, memo);
-    }
-    
-    private int minCutHelper(String s, int start, int end, boolean[][] isPalindrome, int[] memo) {
-        if (start == end || isPalindrome[start][end]) {
-            return 0; // No cuts needed if it's a palindrome.
-        }
+        Arrays.fill(dp, Integer.MAX_VALUE);
         
-        if (memo[start] != -1) {
-            return memo[start];
-        }
-        
-        int minCuts = Integer.MAX_VALUE;
-        
-        for (int i = start; i < end; i++) {
-            if (isPalindrome[start][i]) {
-                minCuts = Math.min(minCuts, 1 + minCutHelper(s, i + 1, end, isPalindrome, memo));
+        for (int i = 0; i < n; i++) {
+            if (isPalindrome[0][i]) {
+                dp[i] = 0;
+            } else {
+                for (int j = 0; j < i; j++) {
+                    if (isPalindrome[j + 1][i]) {
+                        dp[i] = Math.min(dp[i], dp[j] + 1);
+                    }
+                }
             }
         }
         
-        memo[start] = minCuts;
-        return minCuts;
+        return dp[n - 1];
     }
 }
