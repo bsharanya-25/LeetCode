@@ -1,79 +1,69 @@
+//DLL and Hashmap
+
 class LRUCache {
 
-    private Map<Integer, Node> cache;
-    private int capacity;
+    class Node {
+        int key;
+        int value;
+        Node prev;
+        Node next;
 
-    private Node left;
-    private Node right;
+        Node(int key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+    }
+
+    private Map<Integer, Node> cache;
+    private Node head;
+    private Node tail;
+    private int capacity;
 
     public LRUCache(int capacity) {
         this.capacity = capacity;
-        cache = new HashMap<>();
-
-        //left = LRU , right = most recent
-        this.left = new Node(0, 0);
-        this.right = new Node(0, 0);
-        this.left.next = this.right;
-        this.right.prev = this.left;
+        cache = new HashMap<>(capacity);
+        head = new Node(0, 0);
+        tail = new Node(0, 0);
+        head.next = tail;
+        tail.prev = head;
     }
 
     public int get(int key) {
         if (cache.containsKey(key)) {
-            remove(cache.get(key));
-            insert(cache.get(key));
-            return cache.get(key).val;
-        } else {
-            return -1;
+            Node node = cache.get(key);
+            removeNode(node);
+            addToFront(node);
+            return node.value;
         }
+        return -1;
     }
 
     public void put(int key, int value) {
         if (cache.containsKey(key)) {
-            remove(cache.get(key));
-        }
-        cache.put(key, new Node(key, value));
-        insert(cache.get(key));
-
-        if (cache.size() > capacity) {
-            // remove from the list and delte the LRU from the hashmap
-            Node lru = this.left.next;
-            remove(lru);
-            cache.remove(lru.key);
+            Node node = cache.get(key);
+            node.value = value;
+            removeNode(node);
+            addToFront(node);
+        } else {
+            if (cache.size() >= capacity) {
+                cache.remove(tail.prev.key);
+                removeNode(tail.prev);
+            }
+            Node newNode = new Node(key, value);
+            cache.put(key, newNode);
+            addToFront(newNode);
         }
     }
 
-    // remove node from list
-    public void remove(Node node) {
-        Node prev = node.prev;
-        Node next = node.next;
-
-        prev.next = next;
-        next.prev = prev;
+    private void addToFront(Node node) {
+        node.next = head.next;
+        node.prev = head;
+        head.next.prev = node;
+        head.next = node;
     }
 
-    // insert node at right
-    public void insert(Node node) {
-        Node prev = this.right.prev;
-        Node next = this.right;
-
-        prev.next = node;
-        next.prev = node;
-
-        node.next = next;
-        node.prev = prev;
-    }
-
-    private class Node {
-
-        private int key;
-        private int val;
-
-        Node next;
-        Node prev;
-
-        public Node(int key, int val) {
-            this.key = key;
-            this.val = val;
-        }
+    private void removeNode(Node node) {
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
     }
 }
