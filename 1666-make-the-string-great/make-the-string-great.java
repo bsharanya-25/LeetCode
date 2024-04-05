@@ -20,8 +20,13 @@ class Solution {
 
     }
 }
+//TC:O(N)
+//SC:O(N)
+
+//if (!stack.isEmpty() && Math.abs(stack.peek() - c) == 32
 
 //The ASCII value of 'a' is 97, and the ASCII value of 'A' is 65. 
 //The absolute difference between them is |97 - 65| = 32.
+
 //The ASCII value of 'b' is 98, and the ASCII value of 'B' is 66. 
 //The absolute difference between them is |98 - 66| = 32.
