@@ -14,6 +14,6 @@ class Solution {
             }
         }
         //Return the correct element using letters[left % letters.length] to handle the case when left is greater than the array length.
-        return letters[left % letters.length];
+        return left == letters.length ? letters[0] : letters[left];
     }
 }
