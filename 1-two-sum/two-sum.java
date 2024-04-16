@@ -8,7 +8,7 @@ class Solution {
         // Find the complement
         for (int i = 0; i < n; i++) {
             int diff = target - nums[i];
-            if (map.containsKey(diff) && map.get(diff) != i) {
+            if (map.containsKey(diff)) {
                 return new int[]{i, map.get(diff)};
             }
             else{
@@ -16,6 +16,14 @@ class Solution {
             }
         }
         return new int[]{}; // No solution found
+
+    }
+    }
+
+
+
+
+
 
 
         // HashTable approach --> Better
@@ -31,6 +39,7 @@ class Solution {
         //     if (numMap.containsKey(complement) && numMap.get(complement) != i) {
         //         return new int[]{i, numMap.get(complement)};
         // return new int[]{}; // No solution found
+        //tc: O(n+n) =~ o(n)
 
 
         // 2 pointer approach --> Brute force
@@ -42,5 +51,5 @@ class Solution {
         //     }
         // }
         // return new int[]{}; //no sol found
-    }
-}
+        // tc:O(n*n)
+    
