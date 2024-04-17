@@ -13,41 +13,24 @@
  *     }
  * }
  */
-class Solution 
-{
-    StringBuilder smallest = null;
-    public String smallestFromLeaf(TreeNode root) 
-    {
-        helper(root, "");
-        return smallest.toString();
+class Solution {
+    public String smallestFromLeaf(TreeNode root) {
+        String[] ans = new String[1];
+        ans[0] = "";
+        helper(root, new StringBuilder(), ans);
+        return ans[0];
     }
-    private void helper(TreeNode root, String s)
-    {
-        if(root==null)
-        {
-            return;
+
+    private void helper(TreeNode node, StringBuilder s, String[] ans) {
+        s.append((char)('a' + node.val));
+
+        if(node.left == null && node.right == null) {
+            s.reverse();
+            String str = s.toString();
+            if(ans[0].isEmpty() || str.compareTo(ans[0]) < 0) ans[0] = str;
         }
 
-        if(root.left==null && root.right==null)
-        {
-            s += (char)(97 + root.val);
-
-            StringBuilder str = new StringBuilder(s);
-            str.reverse();
-
-            if(smallest == null)
-                smallest = str;
-
-            else if(str.compareTo(smallest) < 0)
-                smallest = str;
-
-            else
-                return;
-        }
-
-        s += (char)(97 + root.val);
-
-        helper(root.left, s);
-        helper(root.right, s);
+        if(node.left != null) helper(node.left, new StringBuilder(s), ans);
+        if(node.right != null) helper(node.right, new StringBuilder(s), ans);
     }
 }
