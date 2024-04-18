@@ -1,21 +1,24 @@
 class Solution {
     public int islandPerimeter(int[][] grid) {
-        int res = 0;
-        for(int i=0; i< grid.length; i++){
-            for(int j=0; j< grid[i].length; j++){
-                if(grid[i][j]==1){
-                    res+=4;
-                    if(i>0 && grid[i-1][j]==1){
-                        res-=2;
-                    }
-                    if(j>0 && grid[i][j-1]==1){
-                        res-=2;
-                    }
-                }
+        int perimeter = 0;
+        int rows = grid.length;
+        int cols = grid[0].length;
 
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == 1) {
+                    perimeter += 4;
+
+                    // Check left neighbor
+                    if (j > 0 && grid[i][j - 1] == 1)
+                        perimeter -= 2;
+
+                    // Check top neighbor
+                    if (i > 0 && grid[i - 1][j] == 1)
+                        perimeter -= 2;
+                }
             }
         }
-        return res;
-        
+        return perimeter;
     }
 }
