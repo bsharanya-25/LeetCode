@@ -15,58 +15,32 @@
  */
 class Solution {
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-        // List to store the result of zigzag traversal
         List<List<Integer>> result = new ArrayList<>();
+        if (root == null) return result;
 
-        // Check if the root is null, return an empty result
-        if (root == null) {
-            return result;
-        }
-
-        // Queue to perform level order traversal
-        Queue<TreeNode> nodesQueue = new LinkedList<>();
-        nodesQueue.add(root);
-
-        // Flag to determine the direction of traversal (left to right or right to left)
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
         boolean leftToRight = true;
 
-        // Continue traversal until the queue is empty
-        while (!nodesQueue.isEmpty()) {
-            // Get the number of nodes at the current level
-            int size = nodesQueue.size();
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            List<Integer> levelNodes = new ArrayList<>();
 
-            // List to store the values of nodes at the current level
-            List<Integer> row = new ArrayList<>();
-
-            // Traverse nodes at the current level
-            for (int i = 0; i < size; i++) {
-                // Get the front node from the queue
-                TreeNode node = nodesQueue.poll();
-
-                // Insert the node's value based on the traversal direction
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode node = queue.poll();
                 if (leftToRight) {
-                    row.add(node.val);
+                    levelNodes.add(node.val);
                 } else {
-                    row.add(0, node.val); // Insert at the beginning for right to left traversal
+                    levelNodes.add(0, node.val); // Insert at the beginning for right to left traversal
                 }
-
-                // Enqueue the left and right children if they exist
-                if (node.left != null) {
-                    nodesQueue.add(node.left);
-                }
-                if (node.right != null) {
-                    nodesQueue.add(node.right);
-                }
+                if (node.left != null) queue.offer(node.left);
+                if (node.right != null) queue.offer(node.right);
             }
 
-            // Switch the traversal direction for the next level
-            leftToRight = !leftToRight;
-
-            // Add the current level's values to the result list
-            result.add(row);
+            result.add(levelNodes);
+            leftToRight = !leftToRight; // Toggle the direction for the next level
         }
 
-        // Return the final result of zigzag level order traversal
         return result;
     }
 }
