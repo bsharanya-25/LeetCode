@@ -8,8 +8,8 @@ class Solution {
             if (nums[low] > nums[low + 1]) return low;
             if (nums[high] > nums[high - 1]) return high;
         }
-        low = 1; // start from the second element
-        high = nums.length - 2;
+        low = low+1; // start from the second element
+        high = high-1;
 
 
         // binary search
