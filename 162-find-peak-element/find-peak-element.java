@@ -4,10 +4,13 @@ class Solution {
         int low = 0, high = nums.length-1;
 
         // edge cases
-        if(nums[low] > nums[low+1]) return low;
-        else low = low+1;
-        if(nums[high] > nums[high-1]) return high;
-        else high = high-1;
+       if (nums.length > 1) {
+            if (nums[low] > nums[low + 1]) return low;
+            if (nums[high] > nums[high - 1]) return high;
+        }
+        low = 1; // start from the second element
+        high = nums.length - 2;
+
 
         // binary search
         while(low <= high) {
