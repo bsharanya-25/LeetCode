@@ -1,21 +1,21 @@
 class Solution {
     public List<List<Integer>> combine(int n, int k) {
-	
-        List<List<Integer>> res = new ArrayList<>();
-        helper(n, k, 1,  res, new ArrayList<>());
-        return res;
+        ArrayList<Integer> ds = new ArrayList<>();
+        List<List<Integer>> ans = new ArrayList<>();
+        helper(n, k, 1, ds, ans); // start from 1 instead of 0
+        return ans;
     }
-    private void helper(int n, int k, int idex, List<List<Integer>> res, List<Integer> temp){
-	
-        if(temp.size()==k){
-            res.add(new ArrayList<>(temp));
+
+    public void helper(int n, int k, int start, ArrayList<Integer> ds, List<List<Integer>> ans) {
+        if (ds.size() == k) { // add a base case to terminate recursion when the list size reaches k
+            ans.add(new ArrayList<>(ds));
             return;
         }
-		
-        for(int i = idex; i<=n;i++){
-            temp.add(i);
-            helper(n, k, i+1, res, temp);
-            temp.remove(temp.size()-1);
+
+        for (int i = start; i <= n; i++) {
+            ds.add(i); // add the actual value i to the list instead of the index
+            helper(n, k, i + 1, ds, ans); // increment start to i + 1 to avoid duplicates
+            ds.remove(ds.size() - 1); // remove the last element to backtrack
         }
     }
 }
